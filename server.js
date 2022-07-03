@@ -1,6 +1,3 @@
-// Personal API Key for OpenWeatherMap API
-const apiKey = '<your_api_key>&units=imperial';
-
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 
@@ -31,6 +28,23 @@ function listening() {
 	console.log("running server on port: ${port}");
 }
 
+// Getting the routes and projectdata
 app.get("/all", (request, response) => {
 	response.send(projectData);
 });
+
+function sendData(request, response) {
+	response.send(projectData);
+}
+
+// next step add Post data for weather
+
+app.post("/addWeatherData", addData);
+
+function addData(request, response) {
+	projectData.temperature = request.body.temperature;
+	projectData.date = request.body.date;
+	projectData.user_response = request.body.user_response;
+	response.end();
+	console.log(projectData);
+}
