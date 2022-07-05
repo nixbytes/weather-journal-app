@@ -25,7 +25,7 @@ const port = 3000;
 
 const server = app.listen(port, listening);
 function listening() {
-	console.log("running server on port: ${port}");
+	console.log(`running server on port: ${port}`);
 }
 
 // Getting the routes and projectdata
