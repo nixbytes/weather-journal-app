@@ -42,7 +42,7 @@ function sendData(request, response) {
 app.post("/addWeatherData", addData);
 
 function addData(request, response) {
-	projectData.temperature = request.body.temperature;
+	projectData.temp = request.body.temp;
 	projectData.date = request.body.date;
 	projectData.user_response = request.body.user_response;
 	response.end();
