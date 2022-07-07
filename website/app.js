@@ -1,12 +1,11 @@
 /* Global Variables */
 
 const urlLink = "https://api.openweathermap.org/data/2.5/weather?zip=";
-//const apiKey = "&appid=a48ef7fa25c67bf261db66882eb6116f";
 const apiKey = "a48ef7fa25c67bf261db66882eb6116f";
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+let newDate = d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear();
 
 // Eventlistener to add function for the dom element
 document.getElementById("generate").addEventListener("click", performAction);
@@ -31,7 +30,9 @@ function performAction(e) {
 // Async Fetch with Web APIs
 const getWeather = async (urlLink, getZip, apiKey) => {
 	// response from api fetch data
-	const response = await fetch(urlLink + getZip + "&appid=" + apiKey);
+	const response = await fetch(
+		urlLink + getZip + "&appid=" + apiKey + "&units=imperial"
+	);
 	try {
 		// try fetch json from api call
 		const jsonData = await response.json();
@@ -44,7 +45,6 @@ const getWeather = async (urlLink, getZip, apiKey) => {
 
 // Function to POST data
 const postData = async (url = "", data = {}) => {
-	console.log(data);
 	const response = await fetch(url, {
 		method: "POST",
 		credentials: "same-origin",
@@ -57,7 +57,6 @@ const postData = async (url = "", data = {}) => {
 
 	try {
 		const newData = await response.json();
-		//	console.log(newData);
 		return newData;
 	} catch (error) {
 		console.log("error", error);
@@ -70,10 +69,17 @@ const updateUI = async () => {
 	try {
 		const allData = await request.json();
 		document.getElementById("date").innerHTML = allData.date;
-		document.getElementById("temp").innerHTML = allData.temperature;
+		document.getElementById("temp").innerHTML = allData.temp;
 		document.getElementById("content").innerHTML =
 			allData.user_response;
 	} catch (error) {
 		console.log("error", error);
 	}
 };
+
+//helper function to convert temperature from Kelvin to Celsius
+function convertTemp(kelvin) {
+	const result =
+		kelvin < 0 ? "below zero)" : (kelvin - 273.15).toFixed(1);
+	return result;
+}
